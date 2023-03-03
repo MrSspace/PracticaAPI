@@ -2,7 +2,6 @@ package com.blog.practica.entidades;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NonNull;
 
 
 @Data
