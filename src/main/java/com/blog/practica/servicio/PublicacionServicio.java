@@ -1,5 +1,6 @@
 package com.blog.practica.servicio;
 
+import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 
 import java.util.List;
@@ -12,7 +13,8 @@ public interface PublicacionServicio {
 
     public PublicacionDTO buscarPublicacionPorTitulo(String titulo);
 
-    public List<PublicacionDTO> buscarTodasLasPublicaciones(int numeroDeLaPagina, int publicacionesPorPagina);
+    public ColeccionDePublicacionesDTO buscarTodasLasPublicaciones(
+            int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir);
 
     public PublicacionDTO buscarPublicacionPorId(Long id);
 

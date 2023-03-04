@@ -1,13 +1,13 @@
 package com.blog.practica.controlador;
 
+import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.servicio.PublicacionServicio;
+import com.blog.practica.utilerias.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = {"/api/publicaciones"})
@@ -17,12 +17,21 @@ public class PublicacionControlador {
     private PublicacionServicio publicacionServicio;
 
     @GetMapping
-    public List<PublicacionDTO> listarPublicaciones(
-            @RequestParam(value = "numeroDeLaPagina", defaultValue = "0", required = false)
-                int numeroDeLaPagina,
-            @RequestParam(value = "publicacionesPorPagina", defaultValue = "10", required = false)
-                int publicacionesPorPagina){
-        return publicacionServicio.buscarTodasLasPublicaciones(numeroDeLaPagina,publicacionesPorPagina);
+    public ColeccionDePublicacionesDTO listarPublicaciones(
+        @RequestParam(value = "numeroDeLaPagina",
+                defaultValue = AppConstantes.NUMERO_DE_LA_PAGINA_POR_DEFECTO,
+                required = false) int numeroDeLaPagina,
+        @RequestParam(value = "publicacionesPorPagina",
+                defaultValue = AppConstantes.PUBLICACIONES_POR_PAGINA_POR_DEFECTO,
+                required = false) int publicacionesPorPagina,
+        @RequestParam(value = "sortByAtributo",
+                defaultValue = AppConstantes.ORDENAR_POR_ATRIBUTO_POR_DEFECTO,
+                required = false) String ordenarPor,
+        @RequestParam(value = "sortDir",
+                defaultValue = AppConstantes.DIRECCION_DE_ORDENAMIENTO_POR_DEFECTO,
+                required = false) String sortDir){
+        return publicacionServicio.buscarTodasLasPublicaciones(
+                numeroDeLaPagina,publicacionesPorPagina,ordenarPor,sortDir);
     }
 
     @GetMapping("/buscar/titulo/{titulo}")
