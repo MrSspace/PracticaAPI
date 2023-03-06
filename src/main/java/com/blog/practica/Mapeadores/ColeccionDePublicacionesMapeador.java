@@ -4,16 +4,21 @@ import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.entidades.Publicacion;
 import com.blog.practica.entidades.ColeccionDePublicaciones;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ColeccionDePublicacionesMapeador {
+@Component
+public class ColeccionDePublicacionesMapeador implements IColeccionDePublicacionesMapeador{
 
-    private PublicacionMapeador mapeador = new PublicacionMapeador();
+    @Autowired
+    PublicacionMapeador mapeador;
 
     public ColeccionDePublicacionesMapeador(){}
 
+    @Override
     public ColeccionDePublicacionesDTO convertirADTO(ColeccionDePublicaciones coleccionDePublicaciones){
         ColeccionDePublicacionesDTO coleccionDTO = new ColeccionDePublicacionesDTO();
         coleccionDTO.setContenido(convertirPublicacionesADTO(coleccionDePublicaciones.getContenido()));
@@ -25,6 +30,7 @@ public class ColeccionDePublicacionesMapeador {
         return coleccionDTO;
     }
 
+    @Override
     public ColeccionDePublicaciones convertirAEntidad(ColeccionDePublicacionesDTO coleccionDePublicacionesDTO){
         ColeccionDePublicaciones coleccion = new ColeccionDePublicaciones();
         coleccion.setContenido(convertirPublicacionesAEntidad(coleccionDePublicacionesDTO.getContenido()));

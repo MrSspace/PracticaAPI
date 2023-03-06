@@ -1,25 +1,21 @@
 package com.blog.practica.servicio;
 
-import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
-import com.blog.practica.DTO.PublicacionDTO;
-
-import java.util.List;
+import com.blog.practica.entidades.ColeccionDePublicaciones;
+import com.blog.practica.entidades.Publicacion;
 
 public interface PublicacionServicio {
 
-    public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO);
+    public void guardarPublicacion(Publicacion publicacion);
 
-    public void guardarPublicacion(PublicacionDTO publicacionDTO);
+    public Publicacion buscarPublicacionPorId(Long id);
 
-    public PublicacionDTO buscarPublicacionPorTitulo(String titulo);
+    public Publicacion buscarPublicacionPorTitulo(String titulo);
 
-    public ColeccionDePublicacionesDTO buscarTodasLasPublicaciones(
-            int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir);
-
-    public PublicacionDTO buscarPublicacionPorId(Long id);
-
-    public PublicacionDTO actualizarPublicacion(PublicacionDTO publicacionDTO, Long id);
+    public Publicacion actualizarPublicacion(Publicacion actualizacion, Long id);
 
     public void eliminarPublicacion(Long id);
+
+    public ColeccionDePublicaciones buscarTodasLasPublicaciones(
+            int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir);
 
 }

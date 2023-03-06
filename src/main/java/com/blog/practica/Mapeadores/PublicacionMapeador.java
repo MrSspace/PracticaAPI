@@ -2,11 +2,14 @@ package com.blog.practica.Mapeadores;
 
 import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.entidades.Publicacion;
+import org.springframework.stereotype.Component;
 
-public class PublicacionMapeador {
+@Component
+public class PublicacionMapeador implements IPublicacionMapeador{
 
     public PublicacionMapeador(){}
 
+    @Override
     public PublicacionDTO convertirADTO(Publicacion publicacion){
         PublicacionDTO publicacionDTO = new PublicacionDTO();
         publicacionDTO.setId( publicacion.getId() );
@@ -16,6 +19,7 @@ public class PublicacionMapeador {
         return publicacionDTO;
     }
 
+    @Override
     public Publicacion convertirAEntidad(PublicacionDTO publicacionDTO){
         Publicacion publicacion = new Publicacion();
         publicacion.setTitulo( publicacionDTO.getTitulo() );

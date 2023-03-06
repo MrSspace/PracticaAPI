@@ -1,9 +1,5 @@
 package com.blog.practica.servicio;
 
-import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
-import com.blog.practica.DTO.PublicacionDTO;
-import com.blog.practica.Mapeadores.ColeccionDePublicacionesMapeador;
-import com.blog.practica.Mapeadores.PublicacionMapeador;
 import com.blog.practica.entidades.ColeccionDePublicaciones;
 import com.blog.practica.entidades.Publicacion;
 import com.blog.practica.excepciones.ResourceNotFoundException;
@@ -23,102 +19,65 @@ public class PublicacionServicioImpl implements PublicacionServicio{
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
 
-    private PublicacionMapeador mapeador = new PublicacionMapeador();
-
-    private ColeccionDePublicacionesMapeador mapeadorColeccion = new ColeccionDePublicacionesMapeador();
-
     @Override
-    public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO) {
-        guardarPublicacion(publicacionDTO);
-        return buscarPublicacionPorTitulo(publicacionDTO.getTitulo());
-    }
-
-    @Override
-    public void guardarPublicacion(PublicacionDTO publicacionDTO) {
-        Publicacion publicacion = mapeador.convertirAEntidad(publicacionDTO);
+    public void guardarPublicacion(Publicacion publicacion) {
         publicacionRepositorio.save(publicacion);
     }
 
     @Override
-    public PublicacionDTO buscarPublicacionPorTitulo(String titulo) {
-        Publicacion publicacion = publicacionRepositorio.findByTitulo(titulo);
-        return mapeador.convertirADTO(publicacion);
-    }
-
-    public ColeccionDePublicacionesDTO buscarTodasLasPublicaciones(
-            int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir){
-        ColeccionDePublicaciones coleccionDePublicaciones = crearColeccionDePublicaciones(
-                numeroDeLaPagina,publicacionesPorPagina,ordenarPor,sortDir);
-        ColeccionDePublicacionesDTO publicacionesDTO;
-        publicacionesDTO = crearColeccionDePublicacionesDTO(coleccionDePublicaciones);
-        return publicacionesDTO;
+    public Publicacion buscarPublicacionPorTitulo(String titulo) {
+        return publicacionRepositorio.findByTitulo(titulo);
     }
 
     @Override
-    public PublicacionDTO buscarPublicacionPorId(Long id) {
-        Publicacion publicacion = encontrarPublicacion(id);
-        return mapeador.convertirADTO(publicacion);
-    }
-
-    @Override
-    public PublicacionDTO actualizarPublicacion(PublicacionDTO publicacionDTO, Long id) {
-        Publicacion publicacion = encontrarPublicacion(id);
-        publicacion.setTitulo(publicacionDTO.getTitulo());
-        publicacion.setDescripcion(publicacionDTO.getDescripcion());
-        publicacion.setContenido(publicacionDTO.getContenido());
-        publicacionRepositorio.save(publicacion);
-        return mapeador.convertirADTO(publicacion);
-    }
-
-    public  void eliminarPublicacion(Long id){
-        Publicacion publicacion = encontrarPublicacion(id);
-        publicacionRepositorio.delete(publicacion);
-    }
-
-    private Publicacion encontrarPublicacion(Long id){
+    public Publicacion buscarPublicacionPorId(Long id) {
         return publicacionRepositorio.findById(id)
                 .orElseThrow( ()->new ResourceNotFoundException("Publicacion","id", id) );
     }
 
-    private ColeccionDePublicacionesDTO crearColeccionDePublicacionesDTO(
-            ColeccionDePublicaciones coleccionDePublicaciones){
-        ColeccionDePublicacionesDTO coleccionPublicacionesDTO;
-        coleccionPublicacionesDTO= mapeadorColeccion.convertirADTO(coleccionDePublicaciones);
-        return coleccionPublicacionesDTO;
+    @Override
+    public Publicacion actualizarPublicacion(Publicacion actualizacion, Long id) {
+        Publicacion publicacion = buscarPublicacionPorId(id);
+        publicacion.setTitulo(actualizacion.getTitulo());
+        publicacion.setDescripcion(actualizacion.getDescripcion());
+        publicacion.setContenido(actualizacion.getContenido());
+        publicacionRepositorio.save(publicacion);
+        return publicacion;
     }
 
-    private ColeccionDePublicaciones crearColeccionDePublicaciones(
+    public  void eliminarPublicacion(Long id){
+        publicacionRepositorio.delete(buscarPublicacionPorId(id));
+    }
+
+    public ColeccionDePublicaciones buscarTodasLasPublicaciones(
             int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir){
-        Page<Publicacion> paginadas = paginarPublicaciones(
-                numeroDeLaPagina,publicacionesPorPagina,ordenarPor,sortDir);
-        List<Publicacion> contenido = listarPublicaciones(paginadas);
+
+        Page<Publicacion> contenidoPaginado =
+                paginarPublicaciones(numeroDeLaPagina,publicacionesPorPagina,ordenarPor,sortDir);
+
+        List<Publicacion> contenido = contenidoPaginado.getContent();
+
         ColeccionDePublicaciones coleccionPublicaciones = new ColeccionDePublicaciones();
         coleccionPublicaciones.setContenido(contenido);
-        coleccionPublicaciones.setNumeroDeLaPagina(paginadas.getNumber());
-        coleccionPublicaciones.setPublicacionesPorPagina(paginadas.getSize());
-        coleccionPublicaciones.setTotalDeElementos(paginadas.getTotalElements());
-        coleccionPublicaciones.setTotalDePaginas(paginadas.getTotalPages());
-        coleccionPublicaciones.setUltimaPagina(paginadas.isLast());
-        return coleccionPublicaciones;
-    }
+        coleccionPublicaciones.setNumeroDeLaPagina(contenidoPaginado.getNumber());
+        coleccionPublicaciones.setPublicacionesPorPagina(contenidoPaginado.getSize());
+        coleccionPublicaciones.setTotalDeElementos(contenidoPaginado.getTotalElements());
+        coleccionPublicaciones.setTotalDePaginas(contenidoPaginado.getTotalPages());
+        coleccionPublicaciones.setUltimaPagina(contenidoPaginado.isLast());
 
-    private List<Publicacion> listarPublicaciones(Page<Publicacion> publicacionesPaginadas) {
-        List<Publicacion> publicaciones = publicacionesPaginadas.getContent();
-        return publicaciones;
+        return coleccionPublicaciones;
     }
 
     private Page<Publicacion> paginarPublicaciones(
             int numeroDeLaPagina, int publicacionesPorPagina, String ordenarPor, String sortDir){
         Sort sort = elegirDirDeOrdenamiento(ordenarPor, sortDir);
         Pageable pageable = PageRequest.of(numeroDeLaPagina,publicacionesPorPagina,sort);
-        Page<Publicacion> publicacionesPaginadas = publicacionRepositorio.findAll(pageable);
-        return publicacionesPaginadas;
+        return publicacionRepositorio.findAll(pageable);
     }
 
     private Sort elegirDirDeOrdenamiento(String ordenarPor, String sortDir){
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+        return sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(ordenarPor).ascending() : Sort.by(ordenarPor).descending();
-        return sort;
     }
 
 }
