@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface PublicacionRepositorio extends JpaRepository<Publicacion, Long> {
 
     @Query(value = "SELECT * FROM publicaciones WHERE publicaciones.titulo = :titulo",
-    nativeQuery = true)
+            nativeQuery = true)
     public Publicacion findByTitulo(@Param("titulo") String titulo);
 
 }

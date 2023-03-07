@@ -5,20 +5,24 @@ import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.Mapeadores.IColeccionDePublicacionesMapeador;
 import com.blog.practica.Mapeadores.IPublicacionMapeador;
 import com.blog.practica.entidades.Publicacion;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PublicacionDTOServicioImpl implements IPublicacionDTOServicio {
 
-    @Autowired
-    private IPublicacionServicio publicacionServicio;
+    private final IPublicacionServicio publicacionServicio;
+    private final IPublicacionMapeador publicacionMapeador;
+    private final IColeccionDePublicacionesMapeador mapeadorColeccion;
 
-    @Autowired
-    private IPublicacionMapeador publicacionMapeador;
+    public PublicacionDTOServicioImpl(
+            IPublicacionServicio publicacionServicio,
+            IPublicacionMapeador publicacionMapeador,
+            IColeccionDePublicacionesMapeador mapeadorColeccion) {
 
-    @Autowired
-    private IColeccionDePublicacionesMapeador mapeadorColeccion;
+        this.publicacionServicio = publicacionServicio;
+        this.publicacionMapeador = publicacionMapeador;
+        this.mapeadorColeccion = mapeadorColeccion;
+    }
 
     @Override
     public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO) {

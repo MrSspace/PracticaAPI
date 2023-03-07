@@ -3,7 +3,6 @@ package com.blog.practica.servicio;
 import com.blog.practica.DTO.ComentarioDTO;
 import com.blog.practica.Mapeadores.ComentarioMapeador;
 import com.blog.practica.entidades.Comentario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +11,15 @@ import java.util.stream.Collectors;
 @Service
 public class ComentarioDTOServicioImpl implements IComentarioDTOServicio{
 
-    @Autowired
-    private IComentarioServicio comentarioServicio;
+    private final IComentarioServicio comentarioServicio;
+    private final ComentarioMapeador mapeadorComentario;
 
-    @Autowired
-    private ComentarioMapeador mapeadorComentario;
+    public ComentarioDTOServicioImpl(
+            IComentarioServicio comentarioServicio,
+            ComentarioMapeador mapeadorComentario) {
+        this.comentarioServicio = comentarioServicio;
+        this.mapeadorComentario = mapeadorComentario;
+    }
 
     @Override
     public ComentarioDTO crearComentario(Long publicacionId, ComentarioDTO comentarioDTO) {

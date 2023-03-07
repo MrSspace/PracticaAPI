@@ -13,10 +13,11 @@ import java.util.stream.Collectors;
 @Component
 public class ColeccionDePublicacionesMapeador implements IColeccionDePublicacionesMapeador{
 
-    @Autowired
-    PublicacionMapeador mapeador;
+    private final PublicacionMapeador mapeador;
 
-    public ColeccionDePublicacionesMapeador(){}
+    public ColeccionDePublicacionesMapeador(PublicacionMapeador mapeador){
+        this.mapeador = mapeador;
+    }
 
     @Override
     public ColeccionDePublicacionesDTO convertirADTO(ColeccionDePublicaciones coleccionDePublicaciones){

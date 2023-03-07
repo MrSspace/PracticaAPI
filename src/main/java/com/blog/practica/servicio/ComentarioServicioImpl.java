@@ -3,7 +3,6 @@ package com.blog.practica.servicio;
 import com.blog.practica.entidades.Comentario;
 import com.blog.practica.excepciones.ResourceNotFoundException;
 import com.blog.practica.repositorio.ComentarioRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +10,15 @@ import java.util.List;
 @Service
 public class ComentarioServicioImpl implements IComentarioServicio{
 
-    @Autowired
-    private ComentarioRepositorio comentarioRepositorio;
+    private final ComentarioRepositorio comentarioRepositorio;
+    private final IPublicacionServicio publicacionServicio;
 
-    @Autowired
-    private IPublicacionServicio publicacionServicio;
+    public ComentarioServicioImpl(
+            ComentarioRepositorio comentarioRepositorio,
+            IPublicacionServicio publicacionServicio) {
+        this.comentarioRepositorio = comentarioRepositorio;
+        this.publicacionServicio = publicacionServicio;
+    }
 
     @Override
     public void guardar(Comentario comentario, Long publicacionId) {

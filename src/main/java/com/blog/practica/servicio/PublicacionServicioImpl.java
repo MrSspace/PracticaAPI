@@ -4,7 +4,6 @@ import com.blog.practica.entidades.ColeccionDePublicaciones;
 import com.blog.practica.entidades.Publicacion;
 import com.blog.practica.excepciones.ResourceNotFoundException;
 import com.blog.practica.repositorio.PublicacionRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +15,11 @@ import java.util.List;
 @Service
 public class PublicacionServicioImpl implements IPublicacionServicio {
 
-    @Autowired
-    private PublicacionRepositorio publicacionRepositorio;
+    private final PublicacionRepositorio publicacionRepositorio;
+
+    public PublicacionServicioImpl(PublicacionRepositorio publicacionRepositorio) {
+        this.publicacionRepositorio = publicacionRepositorio;
+    }
 
     @Override
     public void guardarPublicacion(Publicacion publicacion) {

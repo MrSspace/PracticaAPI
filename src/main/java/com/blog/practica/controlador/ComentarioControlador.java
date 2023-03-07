@@ -2,7 +2,6 @@ package com.blog.practica.controlador;
 
 import com.blog.practica.DTO.ComentarioDTO;
 import com.blog.practica.servicio.IComentarioDTOServicio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import java.util.List;
 @RequestMapping("/api/")
 public class ComentarioControlador implements IComentarioControlador {
 
-    @Autowired
-    private IComentarioDTOServicio comentarioDTOServicio;
+    private final IComentarioDTOServicio comentarioDTOServicio;
+
+    public ComentarioControlador(IComentarioDTOServicio comentarioDTOServicio) {
+        this.comentarioDTOServicio = comentarioDTOServicio;
+    }
 
     @Override
     @GetMapping("/publicaciones/{publicacionId}/comentarios")

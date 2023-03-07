@@ -4,7 +4,6 @@ import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.servicio.IPublicacionDTOServicio;
 import com.blog.practica.utilerias.AppConstantes;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = {"/api/publicaciones"})
 public class PublicacionControlador implements IPublicacionControlador {
 
-    @Autowired
-    private IPublicacionDTOServicio publicacionDTOServicio;
+    private final IPublicacionDTOServicio publicacionDTOServicio;
+
+    public PublicacionControlador(IPublicacionDTOServicio publicacionDTOServicio) {
+        this.publicacionDTOServicio = publicacionDTOServicio;
+    }
 
     @Override
     @GetMapping
