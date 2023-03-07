@@ -3,7 +3,7 @@ package com.blog.practica.servicio;
 import com.blog.practica.entidades.ColeccionDePublicaciones;
 import com.blog.practica.entidades.Publicacion;
 
-public interface PublicacionServicio {
+public interface IPublicacionServicio {
 
     public void guardarPublicacion(Publicacion publicacion);
 

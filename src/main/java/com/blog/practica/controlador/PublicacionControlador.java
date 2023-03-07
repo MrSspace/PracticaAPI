@@ -2,7 +2,7 @@ package com.blog.practica.controlador;
 
 import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
-import com.blog.practica.servicio.PublicacionDTOServicio;
+import com.blog.practica.servicio.IPublicacionDTOServicio;
 import com.blog.practica.utilerias.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/publicaciones"})
-public class PublicacionControlador {
+public class PublicacionControlador implements IPublicacionControlador {
 
     @Autowired
-    private PublicacionDTOServicio publicacionDTOServicio;
+    private IPublicacionDTOServicio publicacionDTOServicio;
 
+    @Override
     @GetMapping
     public ColeccionDePublicacionesDTO listarPublicaciones(
         @RequestParam(value = "numeroDeLaPagina",
@@ -34,18 +35,23 @@ public class PublicacionControlador {
                 numeroDeLaPagina,publicacionesPorPagina,ordenarPor,sortDir);
     }
 
+    @Override
     @GetMapping("/buscar/titulo/{titulo}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorTitulo(
             @PathVariable(name = "titulo") String titulo){
         return ResponseEntity.ok(publicacionDTOServicio.buscarPublicacionPorTitulo(titulo));
     }
 
+    @Override
     @GetMapping("/buscar/id/{id}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorId(
             @PathVariable(name = "id") Long id){
-        return ResponseEntity.ok(publicacionDTOServicio.buscarPublicacionPorId(id));
+        return ResponseEntity.status(HttpStatus.OK)
+                .header("Accion","BuscandoPorId")
+                .body(publicacionDTOServicio.buscarPublicacionPorId(id));
     }
 
+    @Override
     @PostMapping("/crear")
     public ResponseEntity<PublicacionDTO> crearPublicacion(
             @RequestBody PublicacionDTO publicacionDTO){
@@ -53,6 +59,7 @@ public class PublicacionControlador {
                 publicacionDTOServicio.crearPublicacion(publicacionDTO), HttpStatus.CREATED);
     }
 
+    @Override
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<PublicacionDTO> actualizarPublicacion(
             @RequestBody PublicacionDTO publicacionDTO, @PathVariable(name = "id") Long id){
@@ -60,6 +67,7 @@ public class PublicacionControlador {
                 publicacionDTOServicio.actualizarPublicacion(publicacionDTO,id),HttpStatus.OK);
     }
 
+    @Override
     @DeleteMapping("eliminar/{id}")
     public ResponseEntity<String> eliminarPublicacion(@PathVariable(name = "id") Long id){
         publicacionDTOServicio.eliminarPublicacion(id);

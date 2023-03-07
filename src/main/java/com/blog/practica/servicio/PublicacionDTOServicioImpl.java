@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PublicacionDTOServicioImpl implements PublicacionDTOServicio{
+public class PublicacionDTOServicioImpl implements IPublicacionDTOServicio {
 
     @Autowired
-    private PublicacionServicio publicacionServicio;
+    private IPublicacionServicio publicacionServicio;
 
     @Autowired
     private IPublicacionMapeador publicacionMapeador;

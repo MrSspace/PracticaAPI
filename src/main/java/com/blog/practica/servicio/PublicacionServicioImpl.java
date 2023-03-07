@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PublicacionServicioImpl implements PublicacionServicio{
+public class PublicacionServicioImpl implements IPublicacionServicio {
 
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;

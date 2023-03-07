@@ -3,7 +3,7 @@ package com.blog.practica.servicio;
 import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 
-public interface PublicacionDTOServicio {
+public interface IPublicacionDTOServicio {
 
     public PublicacionDTO crearPublicacion(PublicacionDTO publicacionDTO);
 

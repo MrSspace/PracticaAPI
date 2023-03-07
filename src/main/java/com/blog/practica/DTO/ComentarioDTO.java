@@ -7,18 +7,18 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class PublicacionDTO {
+public class ComentarioDTO {
 
     @Setter @Getter
     private Long id;
 
     @Setter @Getter
-    private String titulo;
+    private String cuerpo;
 
     @Setter @Getter
-    private String descripcion;
+    private String email;
 
     @Setter @Getter
-    private String contenido;
+    private String nombre;
 
 }
