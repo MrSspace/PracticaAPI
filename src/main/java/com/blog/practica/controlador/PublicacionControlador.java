@@ -4,12 +4,13 @@ import com.blog.practica.DTO.ColeccionDePublicacionesDTO;
 import com.blog.practica.DTO.PublicacionDTO;
 import com.blog.practica.servicio.IPublicacionDTOServicio;
 import com.blog.practica.utilerias.AppConstantes;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = {"/api/publicaciones"})
+@RequestMapping(value = {"/api/v1/publicaciones"})
 public class PublicacionControlador implements IPublicacionControlador {
 
     private final IPublicacionDTOServicio publicacionDTOServicio;
@@ -56,7 +57,9 @@ public class PublicacionControlador implements IPublicacionControlador {
     @Override
     @PostMapping("/crear")
     public ResponseEntity<PublicacionDTO> crearPublicacion(
-            @RequestBody PublicacionDTO publicacionDTO){
+            @Valid
+            @RequestBody
+            PublicacionDTO publicacionDTO){
         return new ResponseEntity<>(
                 publicacionDTOServicio.crearPublicacion(publicacionDTO), HttpStatus.CREATED);
     }
@@ -64,7 +67,9 @@ public class PublicacionControlador implements IPublicacionControlador {
     @Override
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<PublicacionDTO> actualizarPublicacion(
-            @RequestBody PublicacionDTO publicacionDTO, @PathVariable(name = "id") Long id){
+            @Valid
+            @RequestBody
+            PublicacionDTO publicacionDTO, @PathVariable(name = "id") Long id){
         return new ResponseEntity<>(
                 publicacionDTOServicio.actualizarPublicacion(publicacionDTO,id),HttpStatus.OK);
     }

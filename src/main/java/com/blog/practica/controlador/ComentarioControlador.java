@@ -2,6 +2,7 @@ package com.blog.practica.controlador;
 
 import com.blog.practica.DTO.ComentarioDTO;
 import com.blog.practica.servicio.IComentarioDTOServicio;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/v1/")
 public class ComentarioControlador implements IComentarioControlador {
 
     private final IComentarioDTOServicio comentarioDTOServicio;
@@ -36,7 +37,9 @@ public class ComentarioControlador implements IComentarioControlador {
     @PostMapping("/publicaciones/{publicacionId}/comentarios")
     public ResponseEntity<ComentarioDTO> crearComentario(
             @PathVariable(value = "publicacionId") Long publicacionId,
-            @RequestBody ComentarioDTO comentarioDTO){
+            @Valid
+            @RequestBody
+            ComentarioDTO comentarioDTO){
         return new ResponseEntity<>(
                 comentarioDTOServicio.crearComentario(publicacionId,comentarioDTO),
                 HttpStatus.CREATED);
@@ -46,7 +49,9 @@ public class ComentarioControlador implements IComentarioControlador {
     @PutMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
     public ResponseEntity<ComentarioDTO> actualizarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId,
-            @RequestBody ComentarioDTO comentarioDTO){
+            @Valid
+            @RequestBody
+            ComentarioDTO comentarioDTO){
         return new ResponseEntity<>(
                 comentarioDTOServicio.actualizarComentario(comentarioDTO,comentarioId),HttpStatus.OK);
     }
