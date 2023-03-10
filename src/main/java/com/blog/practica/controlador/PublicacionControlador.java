@@ -39,14 +39,14 @@ public class PublicacionControlador implements IPublicacionControlador {
     }
 
     @Override
-    @GetMapping("/buscar/titulo/{titulo}")
+    @GetMapping("{titulo}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorTitulo(
             @PathVariable(name = "titulo") String titulo){
         return ResponseEntity.ok(publicacionDTOServicio.buscarPublicacionPorTitulo(titulo));
     }
 
     @Override
-    @GetMapping("/buscar/id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorId(
             @PathVariable(name = "id") Long id){
         return ResponseEntity.status(HttpStatus.OK)
@@ -55,7 +55,7 @@ public class PublicacionControlador implements IPublicacionControlador {
     }
 
     @Override
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<PublicacionDTO> crearPublicacion(
             @Valid
             @RequestBody
@@ -65,7 +65,7 @@ public class PublicacionControlador implements IPublicacionControlador {
     }
 
     @Override
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<PublicacionDTO> actualizarPublicacion(
             @Valid
             @RequestBody
@@ -75,7 +75,7 @@ public class PublicacionControlador implements IPublicacionControlador {
     }
 
     @Override
-    @DeleteMapping("eliminar/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarPublicacion(@PathVariable(name = "id") Long id){
         publicacionDTOServicio.eliminarPublicacion(id);
         return new ResponseEntity<>("Se ha eliminado la publicacion", HttpStatus.OK);

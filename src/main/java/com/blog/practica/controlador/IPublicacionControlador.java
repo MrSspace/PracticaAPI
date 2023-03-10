@@ -15,23 +15,23 @@ public interface IPublicacionControlador {
             @RequestParam(value = "sortByAtributo") String ordenarPor,
             @RequestParam(value = "sortDir") String sortDir);
 
-    @GetMapping("/buscar/titulo/{titulo}")
+    @GetMapping("{titulo}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorTitulo(
             @PathVariable(name = "titulo") String titulo);
 
-    @GetMapping("/buscar/id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<PublicacionDTO> obtenerPublicacionPorId(
             @PathVariable(name = "id") Long id);
 
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<PublicacionDTO> crearPublicacion(
             @RequestBody PublicacionDTO publicacionDTO);
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<PublicacionDTO> actualizarPublicacion(
             @RequestBody PublicacionDTO publicacionDTO, @PathVariable(name = "id") Long id);
 
-    @DeleteMapping("eliminar/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> eliminarPublicacion(@PathVariable(name = "id") Long id);
 
 }

@@ -8,25 +8,25 @@ import java.util.List;
 
 public interface IComentarioControlador {
 
-    @GetMapping("/publicaciones/{publicacionId}/comentarios")
+    @GetMapping
     public List<ComentarioDTO> mostrarLosComentariosDeLaPublicacaion(
             @PathVariable(value = "publicacionId") Long publicacionId);
 
-    @GetMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @GetMapping("/{comentarioId}")
     public ResponseEntity<ComentarioDTO> buscarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId);
 
-    @PostMapping("/publicaciones/{publicacionId}/comentarios")
+    @PostMapping
     public ResponseEntity<ComentarioDTO> crearComentario(
             @PathVariable(value = "publicacionId") Long publicacionId,
             @RequestBody ComentarioDTO comentarioDTO);
 
-    @PutMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @PutMapping("/{comentarioId}")
     public ResponseEntity<ComentarioDTO> actualizarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId,
             @RequestBody ComentarioDTO comentarioDTO);
 
-    @DeleteMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @DeleteMapping("/{comentarioId}")
     public ResponseEntity<String> eliminarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId);
 

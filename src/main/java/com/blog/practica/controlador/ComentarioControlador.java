@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/publicaciones/{publicacionId}/comentarios")
 public class ComentarioControlador implements IComentarioControlador {
 
     private final IComentarioDTOServicio comentarioDTOServicio;
@@ -20,21 +20,21 @@ public class ComentarioControlador implements IComentarioControlador {
     }
 
     @Override
-    @GetMapping("/publicaciones/{publicacionId}/comentarios")
+    @GetMapping
     public List<ComentarioDTO> mostrarLosComentariosDeLaPublicacaion(
             @PathVariable(value = "publicacionId") Long publicacionId){
         return comentarioDTOServicio.obtenerLosComentariosDeLaPublicacion(publicacionId);
     }
 
     @Override
-    @GetMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @GetMapping("/{comentarioId}")
     public ResponseEntity<ComentarioDTO> buscarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId){
         return ResponseEntity.ok(comentarioDTOServicio.buscarComentarioPorId(comentarioId));
     }
 
     @Override
-    @PostMapping("/publicaciones/{publicacionId}/comentarios")
+    @PostMapping
     public ResponseEntity<ComentarioDTO> crearComentario(
             @PathVariable(value = "publicacionId") Long publicacionId,
             @Valid
@@ -46,7 +46,7 @@ public class ComentarioControlador implements IComentarioControlador {
     }
 
     @Override
-    @PutMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @PutMapping("/{comentarioId}")
     public ResponseEntity<ComentarioDTO> actualizarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId,
             @Valid
@@ -57,7 +57,7 @@ public class ComentarioControlador implements IComentarioControlador {
     }
 
     @Override
-    @DeleteMapping("/publicaciones/{publicacionId}/comentarios/{comentarioId}")
+    @DeleteMapping("/{comentarioId}")
     public ResponseEntity<String> eliminarComentario(
             @PathVariable(value = "comentarioId") Long comentarioId){
         comentarioDTOServicio.eliminarComentario(comentarioId);
